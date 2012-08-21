@@ -134,9 +134,10 @@ class EmailConfirmation(models.Model):
     objects = EmailConfirmationManager()
 
     def key_expired(self):
+        from django.utils.timezone import now as djnow
         expiration_date = self.sent + timedelta(
             days=settings.EMAIL_CONFIRMATION_DAYS)
-        return expiration_date <= datetime.now()
+        return expiration_date <= djnow()
     key_expired.boolean = True
 
     def __unicode__(self):
